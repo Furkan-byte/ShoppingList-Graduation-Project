@@ -1,0 +1,43 @@
+﻿@using Models.ViewModels;
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var shoppingListId = ViewBag.shoppingListId;
+}
+
+<div class="row pb-3">
+    <hr />
+    <hr />
+      <form class="d-flex" asp-controller="Home" asp-action="ViewProducts">
+        <input class="form-control me-sm-2" type="text" name="SearchKey" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    @foreach(var products in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                    <div class="card">
+                        <img src="@products.ImageUrl" class="card-img-top rounded"/>
+                        <div class="card-body">
+                        <div class="pl-1">
+                            <p class="card-title h5 text-primary">@products.Name</p>
+
+                        </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a asp-action="Details" class="btn btn-dark form-control" asp-route-shoppingListId="@shoppingListId" asp-route-productId="@products.Id">
+                            Details
+                        </a>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>

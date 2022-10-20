@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@model IEnumerable<ListnProducts>
+@{
+    ViewData["Title"] = "Edit";
+    int shoppingListId = (int)Accessor.HttpContext.Session.GetInt32("ShopListId");
+}
+<form method="post">
+    
+    <div class="row pb-3">
+    @foreach(var products in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                    <div class="card">
+                        <img src="@products.Product.ImageUrl" class="card-img-top rounded"/>
+                        <div class="card-body">
+                        <div class="pl-1">
+                            <p class="card-title h5 text-primary">@products.Product.Name</p>
+
+                        </div>
+                        </div>
+                    </div>
+                   
+                    <div>
+                        <a asp-action="CustomerDetails" class="btn btn-dark form-control"
+                        asp-route-shoppingListId="@products.ShoppingListId"
+                        asp-route-Id="@products.ID"
+                        asp-route-productId="@products.ProductId">
+                            Details
+                        </a>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            </div>
+
+          
+        
+        }
+        <div class="checkbox">
+                        <label class="form-label">
+                            <input type="checkbox" class="form-check-input" id="GoingShoppingCheck" name="GoingShoppingCheck" />
+                            Going shopping
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="form-label">
+                            <input type="checkbox" class="form-check-input" id="ShoppingCompleted" name="ShoppingCompleted" />
+                            Shopping Completed
+                        </label>
+                    </div>
+                 <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+        @if(Accessor.HttpContext.Session.GetString("State")!="Going Shopping")
+        {
+            <a asp-controller="Home" asp-action="ViewProducts" class="btn btn-secondary" asp-route-id="@shoppingListId" style="width:150px">Go to Products</a>
+        }
+        
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Go back</a>
+    </div>
+
+</form>
+
+@section scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
